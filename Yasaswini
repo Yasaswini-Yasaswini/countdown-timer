@@ -1,0 +1,39 @@
+import tkinter as tk
+
+def countdown(count):
+    # Update the label with the remaining time
+    label['text'] = f"{count // 60:02d}:{count % 60:02d}"
+    if count > 0:
+        # Call countdown again after 1 second
+        root.after(1000, countdown, count - 1)
+    else:
+        label['text'] = "Time's up!"
+        entry.config(state=tk.NORMAL)
+        start_button.config(state=tk.NORMAL)
+
+def start_timer():
+    try:
+        # Get the time in seconds from the entry widget
+        time_in_seconds = int(entry.get())
+        entry.config(state=tk.DISABLED)
+        start_button.config(state=tk.DISABLED)
+        countdown(time_in_seconds)
+    except ValueError:
+        label['text'] = "Please enter a valid number"
+
+# Create the main window
+root = tk.Tk()
+root.title("Countdown Timer")
+
+# Create and place the widgets
+entry = tk.Entry(root)
+entry.pack()
+
+start_button = tk.Button(root, text="Start Timer", command=start_timer)
+start_button.pack()
+
+label = tk.Label(root, text="00:00", font=("Helvetica", 48))
+label.pack()
+
+# Run the application
+root.mainloop()
